@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        
+		body {
+			font-family: Arial, sans-serif;
+            height:100%;
+			background: linear-gradient(to bottom, #DEEFE7, #159A9C);
+		}
+        
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+		h2 {
+			text-align: center;
+			color: #333;
+		}
+		input[type="text"], input[type="email"], input[type="password"] {
+			display: block;
+			margin: 10px 0;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+		input[type="submit"], input[type="button"] {
+			display: inline-block;
+			padding: 10px 20px;
+			background-color: #333;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		input[type="submit"]:hover, input[type="button"]:hover {
+			background-color: #555;
+		}
+
+        h1 {
+            font-size: 40px;
+            text-align: center;
+            animation: myAnimation 10s linear infinite;
+        }
+    
+        @keyframes myAnimation {
+            0% {
+                color: #002333;
+            }
+            40% {
+                color: blue;
+            }
+            80% {
+                color: green;
+            }
+            100%{
+                color: #002333;
+            }
+        }
+
+
+
+        .form-error {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+            
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+            
+        .alert-success {
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+            color: #3c763d;
+        }
+            
+        .alert-info {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+            
+        .alert-warning {
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+            color: #8a6d3b;
+        }
+            
+        .alert-danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+
+        .back-btn {
+			display: inline-block;
+			padding: 10px 20px;
+			background-color: #ccc;
+			color: #333;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			font-size: 16px;
+			margin-top: 20px;
+		}
+
+		.back-btn:hover {
+			background-color: #ddd;
+		}
+	</style>
+</head>
+<body>
+
+    <h1>Strategex</h1>
+
+        <form action="/signup" method="post">
+            {% csrf_token %}
+            <h2>Sign Up</h2>
+            <label for="user-name">Username</label>
+            <input type="text" id="username" name="username" placeholder="Create a username (only letters and number)" Required>
+            
+
+            <label for="first-name">First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="Enter your first name" Required>
+            
+
+            <label for="last-name">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Enter your last name" Required>
+            
+
+            <label for="email">ُEmail</label>
+            <input type="email" id="email" name="email" placeholder="Enter your emai;" Required>
+
+
+            <label for="password">Password</label>
+            <input type="password" id="pass1" name="pass1" placeholder="Create your password" Required>
+            <br>
+
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="pass2" name="pass2" placeholder="Confirm your password" Required>
+            
+
+            <input type="submit" value="Sign Up">
+            <button class="back-btn" onclick="window.history.back()">Back</button>
+        </form>
+
+        <div class="form-error">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>Message:</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            {% endfor %}
+        </div>
+</body>
+</html>
