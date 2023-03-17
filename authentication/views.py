@@ -78,7 +78,8 @@ def signout(request):
     return redirect('home')
 
 def userpage(request):
-    return render(request, "authentication/userpage.html")
+    username = request.user.username
+    return render(request, "authentication/userpage.html" , {'username' : username.capitalize()})
 
 def scrape_data_view(request):
     country = request.GET.get('country')
