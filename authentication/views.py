@@ -4,12 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from authentication.data_scraper import scrape_data
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_protect
+from django.middleware.csrf import rotate_token
 
 # Create your views here.
-
+@csrf_protect
 def home(request):
     return  render(request, "authentication/index.html")
 
+@csrf_protect
 def signup(request):
 
     if request.method == "POST":
@@ -52,6 +55,7 @@ def signup(request):
 
     return render(request, "authentication/signup.html")
 
+@csrf_protect
 def signin(request):
 
     if request.method == 'POST':
@@ -61,6 +65,7 @@ def signin(request):
         user = authenticate(username=username, password=pass1)
         
         if user is not None:
+            rotate_token(request)
             login(request,user)
             fname = user.first_name
             return render(request, "authentication/userpage.html", {'fname' : fname})
@@ -72,15 +77,24 @@ def signin(request):
 
     return render(request, "authentication/signin.html")
 
+@csrf_protect
 def signout(request):
+    rotate_token(request)
     logout(request)
     messages.success(request, "Logged Out Successfully")
     return redirect('home')
 
+@csrf_protect
 def userpage(request):
+    rotate_token(request)
+    username = request.POST.get('username')
+    pass1 = request.POST.get('pass1')
+    user = authenticate(username=username, password=pass1)
+    login(request,user)
     username = request.user.username
     return render(request, "authentication/userpage.html" , {'username' : username.capitalize()})
 
+@csrf_protect
 def scrape_data_view(request):
     country = request.GET.get('country')
     contents = request.GET.get('contents')
