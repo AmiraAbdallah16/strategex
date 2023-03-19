@@ -24,23 +24,23 @@ def signup(request):
         pass2 = request.POST.get('pass2')
 
         if User.objects.filter(username=username):
-            messages.error(request, "Username already exist! Please try other username")
+            messages.add_message(request,messages.SUCCESS, "Username already exist! Please try other username")
             return redirect('signup')
 
         if User.objects.filter(email=email):
-            messages.error(request, "Email already exist! Please try other Email")
+            messages.add_message(request,messages.SUCCESS, "Email already exist! Please try other Email")
             return redirect('signup')
         
         if len(username)>10:
-            messages.error(request, "username must be under 10 characters")
+            messages.add_message(request,messages.SUCCESS, "username must be under 10 characters")
             return redirect('signup')
 
         if pass1 != pass2:
-            messages.error(request, "Passwords didn't match")
+            messages.add_message(request,messages.SUCCESS, "Passwords didn't match")
             return redirect('signup')
 
         if not username.isalnum():
-            messages.error(request, "Username must be alpha-Numeric!")
+            messages.add_message(request,messages.SUCCESS, "Username must be alpha-Numeric!")
             return redirect('signup')
 
         myuser = User.objects.create_user(username, email, pass1)
@@ -71,7 +71,7 @@ def signin(request):
             return render(request, "authentication/userpage.html", {'fname' : fname})
         
         else:
-            messages.error(request, "Username or Password is wrong")
+            messages.add_message(request,messages.SUCCESS, "Username or Password is wrong")
             return redirect('signin')
             
 
@@ -86,17 +86,27 @@ def signout(request):
 
 @csrf_protect
 def userpage(request):
-    rotate_token(request)
-    username = request.POST.get('username')
-    pass1 = request.POST.get('pass1')
-    user = authenticate(username=username, password=pass1)
-    login(request,user)
-    username = request.user.username
-    return render(request, "authentication/userpage.html" , {'username' : username.capitalize()})
-
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        pass1 = request.POST.get('pass1')
+        
+        user = authenticate(username=username, password=pass1)
+        
+        if user is not None:
+            rotate_token(request)
+            login(request,user)
+            username = request.user.username
+            return render(request, "authentication/userpage.html" , {'username' : username.capitalize()})
+        else:
+            messages.add_message(request,messages.SUCCESS, "Username or Password is wrong")
+            return redirect('signin')
+        
+    return render(request, "authentication/signin.html")
+        
 @csrf_protect
 def scrape_data_view(request):
     country = request.GET.get('country')
     contents = request.GET.get('contents')
     scrape_data(country, contents)
-    return HttpResponse('Data scraped successfully')
+    messages.add_message(request, messages.SUCCESS, 'data downloaded')
+    return userpage(request)

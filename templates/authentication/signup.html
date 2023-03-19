@@ -9,23 +9,29 @@
         
 		body {
 			font-family: Arial, sans-serif;
-            height:100%;
-			background: linear-gradient(to bottom, #DEEFE7, #159A9C);
+			background: linear-gradient(to bottom, #FC1414, #fdf9fb);
 		}
-        
-		form {
-			max-width: 500px;
-			margin: 0 auto;
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 8px;
+
+		.container {
+			border-radius: 10px;
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			background-color: #fff;
+			padding: 30px;
+			width: 500px;
+			margin: 5% auto 5%;
 		}
+
 		h2 {
+			color:#FC1414;
 			text-align: center;
-			color: #333;
+			margin-bottom: 30px;
 		}
-		input[type="text"], input[type="email"], input[type="password"] {
+
+		form {
+			margin-top: 20px;
+		}
+
+		input[type="text"], input[type="password"], input[type="email"] {
 			display: block;
 			margin: 10px 0;
 			padding: 10px;
@@ -33,88 +39,30 @@
 			border-radius: 5px;
 			width: 100%;
 			box-sizing: border-box;
+			font-size: 16px;
 		}
-		input[type="submit"], input[type="button"] {
+
+		input[type="submit"] {
 			display: inline-block;
 			padding: 10px 20px;
-			background-color: #333;
+			background-color:#FC1414;
 			color: #fff;
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
 			transition: background-color 0.3s;
-		}
-		input[type="submit"]:hover, input[type="button"]:hover {
-			background-color: #555;
+			font-size: 16px;
 		}
 
-        h1 {
-            font-size: 40px;
-            text-align: center;
-            animation: myAnimation 10s linear infinite;
-        }
-    
-        @keyframes myAnimation {
-            0% {
-                color: #002333;
-            }
-            40% {
-                color: blue;
-            }
-            80% {
-                color: green;
-            }
-            100%{
-                color: #002333;
-            }
-        }
+		input[type="submit"]:hover {
+			background-color: #FC1414;
+		}
 
-
-
-        .form-error {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-            
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-            
-        .alert-success {
-            background-color: #dff0d8;
-            border-color: #d6e9c6;
-            color: #3c763d;
-        }
-            
-        .alert-info {
-            background-color: #d9edf7;
-            border-color: #bce8f1;
-            color: #31708f;
-        }
-            
-        .alert-warning {
-            background-color: #fcf8e3;
-            border-color: #faebcc;
-            color: #8a6d3b;
-        }
-            
-        .alert-danger {
-            background-color: #f2dede;
-            border-color: #ebccd1;
-            color: #a94442;
-        }
-
-        .back-btn {
+		.back-btn {
 			display: inline-block;
 			padding: 10px 20px;
-			background-color: #ccc;
-			color: #333;
+			background-color: #FC1414;
+			color: #fdf9fb;
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
@@ -124,14 +72,21 @@
 		}
 
 		.back-btn:hover {
-			background-color: #ddd;
+			background-color: #FC1414;
 		}
+
+        .two-div {
+            display: flex;
+        }
+        form-error{
+            
+        }
 	</style>
 </head>
 <body>
 
-    <h1>Strategex</h1>
-
+    <div class="two-div">
+        <div class="container">
         <form action="/signup" method="post">
             {% csrf_token %}
             <h2>Sign Up</h2>
@@ -160,9 +115,9 @@
             
 
             <input type="submit" value="Sign Up">
-            <button class="back-btn" onclick="window.history.back()">Back</button>
         </form>
-
+        <button class="back-btn" onclick="window.history.back()">Back</button>
+    </div>
         <div class="form-error">
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -173,5 +128,7 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
+
 </body>
 </html>
